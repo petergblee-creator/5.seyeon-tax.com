@@ -1,3 +1,227 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>5 · 준비 중</title><meta name="robots" content="noindex">
-<style>html,body{height:100%;margin:0}body{display:grid;place-items:center;background:#f3f5f7;color:#1b1f27;font-family:-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}div{text-align:center}b{font-size:56px;display:block;color:#2747a8}p{margin:6px 0;color:#6b7280;font-size:14px}@media(prefers-color-scheme:dark){body{background:#12141a;color:#e9ebf0}}</style></head>
-<body><div><b>5</b><p>5.seyeon-tax.com</p><p>새 앱 자리 · 준비 중</p></div></body></html>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#3f6b2a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>라디오</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%233f6b2a'/%3E%3Ctext x='50' y='62' font-size='30' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='700'%3E라디오%3C/text%3E%3C/svg%3E">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.13/hls.min.js"></script>
+<style>
+:root{--bg:#f6f7f5;--card:#fff;--ink:#1d211c;--sub:#6b7268;--line:#e2e6df;--acc:#3f6b2a;--acc2:#e9f1e3;--warn:#b3261e;--fs:12px}
+@media (prefers-color-scheme:dark){:root{--bg:#141613;--card:#1d201b;--ink:#e8ece5;--sub:#9aa394;--line:#2e332b;--acc:#8cc56a;--acc2:#24301e}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:var(--fs)/1.45 -apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;padding:env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left)}
+.top{position:sticky;top:0;z-index:5;background:var(--bg);padding:8px 10px 6px;border-bottom:1px solid var(--line)}
+.row{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:5px 9px;font:inherit;cursor:pointer;user-select:none;-webkit-user-select:none;text-decoration:none}
+.btn.p{background:var(--acc);color:#fff;border-color:var(--acc)}
+.btn.w{color:var(--warn);border-color:var(--warn)}
+#q{flex:1;min-width:120px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:6px 8px;font:inherit}
+.chips{margin-top:6px}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:14px;padding:3px 10px;font:inherit;color:var(--ink);cursor:pointer;user-select:none;-webkit-user-select:none}
+.chip.on{background:var(--acc2);border-color:var(--acc);color:var(--acc);font-weight:600}
+main{padding:8px 10px 110px;display:grid;gap:8px;grid-template-columns:1fr}
+@media (min-width:600px){main{grid-template-columns:1fr 1fr}}
+@media (min-width:1000px){main{grid-template-columns:1fr 1fr 1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 10px;user-select:none;-webkit-user-select:none}
+.card.now{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc) inset}
+.h{display:flex;align-items:center;gap:6px}
+.nm{font-weight:700;font-size:1.15em}
+.tag{font-size:.85em;color:var(--acc);background:var(--acc2);border-radius:6px;padding:0 6px}
+.fq{margin-left:auto;color:var(--sub);font-size:.9em;white-space:nowrap}
+.ds{color:var(--sub);margin:3px 0 6px;overflow-wrap:anywhere}
+.acts{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.uses{margin-left:auto;color:var(--sub);font-size:.85em}
+mark{background:#ffe066;color:#000;border-radius:2px}
+mark.fl{animation:fl .5s 6 alternate}
+@keyframes fl{to{background:#fff3b0}}
+.ed input,.ed textarea,.ed select{width:100%;margin:3px 0;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:6px;padding:5px 7px;font:inherit}
+.ed textarea{min-height:52px}
+.more{display:none;margin-top:6px}
+.more.on{display:flex}
+.more input{flex:1;min-width:160px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:5px 7px;font:inherit}
+#toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#222;color:#fff;padding:6px 12px;border-radius:14px;opacity:0;transition:.25s;pointer-events:none;font-size:.95em;z-index:20}
+#toast.on{opacity:.92}
+.empty{color:var(--sub);padding:20px;text-align:center;grid-column:1/-1}
+.rec{color:var(--sub);font-size:.9em;margin-top:5px}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:10;background:var(--card);border-top:1px solid var(--line);padding:8px 12px calc(8px + env(safe-area-inset-bottom));display:flex;align-items:center;gap:8px}
+.bar .t{flex:1;min-width:0}
+.bar .t b{display:block;font-size:1.1em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar .t span{color:var(--sub);font-size:.9em}
+.bar .big{width:46px;height:46px;border-radius:50%;font-size:18px;display:flex;align-items:center;justify-content:center;padding:0}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#999;margin-right:4px;vertical-align:middle}
+.dot.live{background:#d33;animation:bl 1.2s infinite}
+@keyframes bl{50%{opacity:.3}}
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="row">
+    <input id="q" placeholder="🔍 방송 찾기 (초성 가능: ㅋㄹㅅ)" autocomplete="off">
+    <button class="btn p" id="bAdd">추가</button>
+    <button class="btn" id="bMore">⋯</button>
+    <button class="btn" id="bFs" title="전체화면">⛶</button>
+  </div>
+  <div class="row more" id="more">
+    <button class="btn" id="bSm">글−</button>
+    <button class="btn" id="bLg">글+</button>
+    <button class="btn" id="bSort">정렬</button>
+    <button class="btn" id="bReset">초기</button>
+    <input id="proxy" placeholder="KBS 우회 주소(Worker, 선택)">
+  </div>
+  <div class="row chips" id="chips"></div>
+</div>
+<main id="list"></main>
+<div class="bar">
+  <div class="t"><b id="nowName">방송을 고르세요</b><span id="nowSt"><i class="dot"></i>대기</span></div>
+  <button class="btn" id="bPrev" title="이전 방송">‹</button>
+  <button class="btn p big" id="bPlay">▶</button>
+  <button class="btn" id="bNext" title="다음 방송">›</button>
+</div>
+<audio id="au" preload="none" playsinline></audio>
+<div id="toast"></div>
+<script>
+/* 종류: mbc(채널코드) · kbs(채널코드) · hls(고정 주소) · link(공식 웹으로 열기) */
+const DEF=[
+ {id:"fm4u",name:"MBC FM4U",grp:"국내",freq:"91.9",type:"mbc",code:"mfm",desc:"음악 중심 FM. 배철수의 음악캠프 등",web:"https://mini.imbc.com"},
+ {id:"mbcsfm",name:"MBC 표준FM",grp:"국내",freq:"95.9",type:"mbc",code:"sfm",desc:"시사·예능 토크",web:"https://mini.imbc.com"},
+ {id:"kbs1fm",name:"KBS 클래식FM",grp:"클래식",freq:"93.1",type:"kbs",code:"24",desc:"클래식·국악 전문 채널(1FM)",web:"https://onair.kbs.co.kr/index.html?sname=onair&stype=live&ch_code=24&ch_type=radioList"},
+ {id:"hanminjok",name:"KBS 한민족방송",grp:"해외",freq:"AM 972",type:"kbs",code:"26",desc:"해외 동포(일본 포함) 대상 한국어 방송",web:"https://onair.kbs.co.kr/index.html?sname=onair&stype=live&ch_code=26&ch_type=radioList"},
+ {id:"arirang",name:"아리랑 라디오",grp:"해외",freq:"88.7",type:"hls",url:"https://amdlive-ch02-ctnd-com.akamaized.net/arirang_3ch/smil:arirang_3ch.smil/playlist.m3u8",desc:"한국 최초 영어 전용 라디오. 영어 듣기 공부용",web:"https://tunein.com/radio/Arirang-FM-887-s81696"},
+ {id:"nhkko",name:"NHK WORLD 한국어",grp:"해외",freq:"일본",type:"link",desc:"NHK 국제방송 한국어 뉴스·프로그램(공식 웹으로 열림)",web:"https://www3.nhk.or.jp/nhkworld/ko/"}
+];
+const GROUPS=["국내","클래식","해외"];
+const K="radio5.v1";
+let S=load();
+function fresh(){return{st:DEF.map(x=>({...x,uses:0,last:0})),chip:"",fs:12,sort:"use",proxy:"",lastId:""}}
+function load(){try{const s=JSON.parse(localStorage.getItem(K));if(s&&s.st)return s}catch(e){}return fresh()}
+function save(){try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}}
+const $=s=>document.querySelector(s);
+function toast(t){const e=$("#toast");e.textContent=t;e.classList.add("on");clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove("on"),1800)}
+function esc(s){return String(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+const CHO="ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ";
+function cho(s){return[...s].map(c=>{const k=c.charCodeAt(0)-44032;return k>=0&&k<11172?CHO[Math.floor(k/588)]:c}).join("")}
+function norm(s){return String(s||"").toLowerCase().replace(/\s+/g,"")}
+function match(st,q){if(!q)return true;const n=norm(q),hay=norm(st.name+st.desc+st.grp+st.freq);if(hay.includes(n))return true;if([...n].every(c=>CHO.includes(c)))return cho(hay).includes(n);let i=0;for(const c of hay){if(c===n[i])i++;if(i===n.length)return true}return false}
+function hl(text,q){if(!q)return esc(text);const n=q.replace(/\s+/g,"");const i=text.toLowerCase().indexOf(n.toLowerCase());if(i<0)return esc(text);return esc(text.slice(0,i))+'<mark class="fl">'+esc(text.slice(i,i+n.length))+"</mark>"+esc(text.slice(i+n.length))}
+function ago(t){if(!t)return"";const d=new Date(t);return`최근 ${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}`}
+
+/* ---------- 스트림 주소 받아 오기 ---------- */
+function jsonp(url,ms=6000){return new Promise((ok,no)=>{const cb="cb_"+Date.now()+"_"+Math.floor(Math.random()*1e4);const s=document.createElement("script");const t=setTimeout(()=>{clean();no(new Error("시간 초과"))},ms);function clean(){clearTimeout(t);delete window[cb];s.remove()}window[cb]=d=>{clean();ok(d)};s.onerror=()=>{clean();no(new Error("불러오기 실패"))};s.src=url+(url.includes("?")?"&":"?")+"callback="+cb+"&_t="+Date.now();document.head.appendChild(s)})}
+async function resolveMbc(code){
+ try{const d=await jsonp(`https://sminiplay.imbc.com/aacplay.ashx?agent=webapp&channel=${code}`);const u=d&&(d.AACLiveURL||d.url);if(u)return u.replace("http://","https://")}catch(e){}
+ const r=await fetch(`https://sminiplay.imbc.com/aacplay.ashx?agent=webapp&channel=${code}&_t=${Date.now()}`);const t=(await r.text()).trim();const m=t.match(/https?:\/\/\S+?\.m3u8\S*/);if(m)return m[0].replace("http://","https://");throw new Error("MBC 주소를 못 받음")}
+async function resolveKbs(code){
+ const api=`https://cfpwwwapi.kbs.co.kr/api/v1/landing/live/channel_code/${code}`;
+ const tries=[api];if(S.proxy)tries.unshift(S.proxy.replace(/\/$/,"")+"/?url="+encodeURIComponent(api));
+ for(const u of tries){try{const r=await fetch(u);const j=await r.json();const items=j.channel_item||[];const it=items.find(x=>x.media_type==="radio")||items[0];if(it&&it.service_url)return it.service_url}catch(e){}}
+ throw new Error("KBS 주소를 못 받음")}
+async function resolve(st){if(st.type==="mbc")return resolveMbc(st.code);if(st.type==="kbs")return resolveKbs(st.code);if(st.type==="hls")return st.url;throw new Error("link")}
+
+/* ---------- 재생 ---------- */
+const au=$("#au");let hls=null,cur=null,busy=false;
+function setSt(t,live){$("#nowSt").innerHTML=`<i class="dot${live?" live":""}"></i>${esc(t)}`}
+function stopAll(){try{au.pause()}catch(e){}if(hls){hls.destroy();hls=null}au.removeAttribute("src");au.load()}
+async function play(st){
+ if(st.type==="link"){window.open(st.web,"_blank");return}
+ if(busy)return;busy=true;cur=st;S.lastId=st.id;st.uses=(st.uses||0)+1;st.last=Date.now();save();render();
+ $("#nowName").textContent=st.name;setSt("주소 받는 중…");$("#bPlay").textContent="⏸";
+ stopAll();
+ try{
+  const url=await resolve(st);setSt("연결 중…");
+  let ok=false;
+  // 1차: 기기 기본 재생(iOS·안드로이드 크롬) — 방송사 CORS 설정과 무관
+  if(au.canPlayType("application/vnd.apple.mpegurl")){try{au.src=url;await au.play();ok=true}catch(e){stopAll()}}
+  // 2차: hls.js (PC 크롬 등)
+  if(!ok&&window.Hls&&Hls.isSupported()){
+   await new Promise((res,rej)=>{hls=new Hls({liveSyncDurationCount:3,maxBufferLength:30});hls.loadSource(url);hls.attachMedia(au);
+    hls.on(Hls.Events.MANIFEST_PARSED,()=>au.play().then(res,rej));
+    hls.on(Hls.Events.ERROR,(e,d)=>{if(!d.fatal)return;if(!ok){rej(new Error(d.details));return}setSt("끊김 · 다시 연결");if(d.type===Hls.ErrorTypes.NETWORK_ERROR)setTimeout(()=>cur===st&&play(st),1500);else hls.recoverMediaError()})});
+   ok=true}
+  // 3차: 그냥 주소로
+  if(!ok){au.src=url;await au.play();ok=true}
+  setSt("재생 중",true);meta(st);
+ }catch(e){
+  setSt("재생 실패");$("#bPlay").textContent="▶";
+  toast(st.name+": 앱 안 재생 실패 → 공식 웹 버튼을 눌러 주세요");
+ }finally{busy=false}
+}
+function toggle(){if(!cur){const s=S.st.find(x=>x.id===S.lastId)||S.st[0];if(s)play(s);return}
+ if(au.paused){play(cur)}else{stopAll();$("#bPlay").textContent="▶";setSt("멈춤")}}
+function step(d){const a=view();if(!a.length)return;let i=cur?a.findIndex(x=>x.id===cur.id):-1;let j=i;for(let k=0;k<a.length;k++){j=(j+d+a.length)%a.length;if(a[j].type!=="link")break}play(a[j])}
+au.addEventListener("playing",()=>{setSt("재생 중",true);$("#bPlay").textContent="⏸"});
+au.addEventListener("waiting",()=>setSt("버퍼링…"));
+au.addEventListener("pause",()=>{$("#bPlay").textContent="▶"});
+function meta(st){if(!("mediaSession"in navigator))return;navigator.mediaSession.metadata=new MediaMetadata({title:st.name,artist:st.freq+" · 라디오",album:st.grp});
+ navigator.mediaSession.setActionHandler("play",()=>play(st));navigator.mediaSession.setActionHandler("pause",()=>{stopAll();setSt("멈춤")});
+ try{navigator.mediaSession.setActionHandler("previoustrack",()=>step(-1));navigator.mediaSession.setActionHandler("nexttrack",()=>step(1))}catch(e){}}
+
+/* ---------- 화면 ---------- */
+let editId=null,adding=false,delArm=null;
+function view(){const q=$("#q").value.trim();let a=S.st.filter(x=>(!S.chip||x.grp===S.chip)&&match(x,q));if(S.sort==="use")a=[...a].sort((x,y)=>(y.uses||0)-(x.uses||0)||(y.last||0)-(x.last||0));return a}
+function renderChips(){const c=$("#chips");c.innerHTML="";GROUPS.forEach(g=>{const b=document.createElement("button");b.className="chip"+(S.chip===g?" on":"");b.textContent=g;b.onclick=()=>{S.chip=S.chip===g?"":g;save();render()};c.appendChild(b)})}
+function render(){
+ document.documentElement.style.setProperty("--fs",S.fs+"px");renderChips();$("#proxy").value=S.proxy||"";
+ const q=$("#q").value.trim(),a=view(),L=$("#list");L.innerHTML="";
+ if(adding)L.appendChild(editor(null));
+ if(!a.length&&!adding){L.innerHTML='<div class="empty">찾는 방송이 없습니다</div>';return}
+ a.forEach(x=>L.appendChild(x.id===editId?editor(x):card(x,q)));
+}
+function card(x,q){
+ const d=document.createElement("div");d.className="card"+(cur&&cur.id===x.id?" now":"");
+ const inApp=x.type!=="link";
+ d.innerHTML=`<div class="h"><span class="nm">${hl(x.name,q)}</span><span class="tag">${esc(x.grp)}</span><span class="fq">${esc(x.freq)}</span></div>
+ <div class="ds">${hl(x.desc,q)}</div>
+ <div class="acts"><button class="btn p" data-a="play">${inApp?"▶ 재생":"↗ 열기"}</button>${inApp&&x.web?`<a class="btn" href="${esc(x.web)}" target="_blank" rel="noopener">공식 웹</a>`:""}<span class="uses">${x.uses?x.uses+"회":""}</span></div>
+ ${x.last?`<div class="rec">${ago(x.last)}</div>`:""}`;
+ d.querySelector('[data-a="play"]').onclick=()=>play(x);
+ let t;const start=e=>{if(e.target.closest("a,button"))return;t=setTimeout(()=>{editId=x.id;adding=false;render();toast("편집 중")},550)},stop=()=>clearTimeout(t);
+ d.addEventListener("pointerdown",start);["pointerup","pointerleave","pointercancel"].forEach(ev=>d.addEventListener(ev,stop));
+ d.addEventListener("contextmenu",e=>e.preventDefault());
+ return d;
+}
+function editor(x){
+ const n=x||{name:"",grp:S.chip||GROUPS[0],freq:"",type:"hls",url:"",code:"",desc:"",web:""};
+ const d=document.createElement("div");d.className="card ed";
+ d.innerHTML=`<input data-k="name" placeholder="방송 이름" value="${esc(n.name)}">
+ <select data-k="grp">${GROUPS.map(g=>`<option${g===n.grp?" selected":""}>${esc(g)}</option>`).join("")}</select>
+ <select data-k="type">${[["hls","스트림 주소(m3u8·mp3)"],["mbc","MBC 채널코드"],["kbs","KBS 채널코드"],["link","공식 웹으로 열기"]].map(([v,l])=>`<option value="${v}"${v===n.type?" selected":""}>${l}</option>`).join("")}</select>
+ <input data-k="url" placeholder="스트림 주소 (https://…m3u8)" value="${esc(n.url)}">
+ <input data-k="code" placeholder="채널코드 (MBC: mfm·sfm / KBS: 24·26)" value="${esc(n.code)}">
+ <input data-k="freq" placeholder="주파수·지역" value="${esc(n.freq)}">
+ <input data-k="web" placeholder="공식 웹 주소" value="${esc(n.web)}">
+ <textarea data-k="desc" placeholder="메모·설명 (여기에 붙여넣기)">${esc(n.desc)}</textarea>
+ <div class="acts"><button class="btn p" data-a="ok">저장</button><button class="btn" data-a="no">취소</button>${x?'<button class="btn w" data-a="del">삭제</button>':""}</div>`;
+ const v=k=>d.querySelector(`[data-k="${k}"]`).value.trim();
+ d.querySelector('[data-a="ok"]').onclick=()=>{const o={name:v("name"),grp:v("grp"),type:v("type"),url:v("url"),code:v("code"),freq:v("freq"),web:v("web"),desc:v("desc")};
+  if(!o.name){toast("이름을 넣어 주세요");return}
+  ["url","web"].forEach(k=>{if(o[k]&&!/^https?:\/\//.test(o[k]))o[k]="https://"+o[k]});
+  if(x)Object.assign(x,o);else S.st.unshift({...o,id:"s"+Date.now(),uses:0,last:0});
+  editId=null;adding=false;save();render();toast("저장했습니다")};
+ d.querySelector('[data-a="no"]').onclick=()=>{editId=null;adding=false;render()};
+ const del=d.querySelector('[data-a="del"]');
+ if(del)del.onclick=()=>{if(delArm!==x.id){delArm=x.id;del.textContent="삭제할까요?";setTimeout(()=>{if(delArm===x.id){delArm=null;del.textContent="삭제"}},3000);return}
+  S.st=S.st.filter(s=>s!==x);delArm=null;editId=null;save();render();toast("삭제했습니다")};
+ return d;
+}
+$("#q").addEventListener("input",render);
+$("#bAdd").onclick=()=>{adding=!adding;editId=null;render();if(adding)setTimeout(()=>{const i=document.querySelector('.ed [data-k="name"]');i&&i.focus()},50)};
+$("#bMore").onclick=()=>$("#more").classList.toggle("on");
+$("#bSm").onclick=()=>{S.fs=Math.max(10,S.fs-1);save();render()};
+$("#bLg").onclick=()=>{S.fs=Math.min(18,S.fs+1);save();render()};
+$("#bSort").onclick=()=>{S.sort=S.sort==="use"?"list":"use";save();render();toast(S.sort==="use"?"자주 들은 순":"등록 순")};
+$("#proxy").addEventListener("change",e=>{S.proxy=e.target.value.trim();save();toast("우회 주소 저장")});
+let rArm=false;$("#bReset").onclick=e=>{if(!rArm){rArm=true;e.target.textContent="되돌릴까요?";setTimeout(()=>{rArm=false;e.target.textContent="초기"},3000);return}
+ const keep=S.fs;S=fresh();S.fs=keep;save();rArm=false;e.target.textContent="초기";render();toast("기본 방송으로 되돌렸습니다")};
+$("#bFs").onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen()}catch(e){toast("전체화면을 쓸 수 없는 화면입니다")}};
+$("#bPlay").onclick=toggle;$("#bPrev").onclick=()=>step(-1);$("#bNext").onclick=()=>step(1);
+document.addEventListener("keydown",e=>{if(e.target.tagName==="INPUT"||e.target.tagName==="TEXTAREA")return;if(e.code==="Space"){e.preventDefault();toggle()}if(e.key==="ArrowRight")step(1);if(e.key==="ArrowLeft")step(-1)});
+const last=S.st.find(x=>x.id===S.lastId);if(last)$("#nowName").textContent=last.name+" (▶로 이어 듣기)";
+render();
+</script>
+</body>
+</html>
